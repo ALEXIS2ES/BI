@@ -1,0 +1,68 @@
+<Schema name="cars">
+  <Cube name="ventas" visible="true" cache="true" enabled="true">
+    <Table name="fac_ventas" alias="">
+    </Table>
+    <Dimension type="StandardDimension" visible="true" foreignKey="fecha_ventas" name="fechas">
+      <Hierarchy name="todos_los_tipos" visible="true" hasAll="true" allMemberName="todas_las_fechas" primaryKey="date_key">
+        <Table name="dim_fecha" alias="">
+        </Table>
+        <Level name="anio" visible="true" column="year4" uniqueMembers="true">
+        </Level>
+        <Level name="mes" visible="true" column="month_number" uniqueMembers="false">
+        </Level>
+        <Level name="dia" visible="true" column="day_in_month" uniqueMembers="false">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="carro_key" name="carros">
+      <Hierarchy name="todos_los_tipos" visible="true" hasAll="true" allMemberName="todos_los_carros" primaryKey="carro_key">
+        <Table name="dim_carro" alias="">
+        </Table>
+        <Level name="restricciones" visible="true" column="marca" uniqueMembers="true"></Level>
+        <Level name="modelo" visible="true" column="modelo" uniqueMembers="false">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+     <Dimension type="StandardDimension" visible="true" foreignKey="consesionario_key" name="consesionarios">
+      <Hierarchy name="todos_los_tipos" visible="true" hasAll="true" allMemberName="todos_los_consesionarios" primaryKey="consesionario_key">
+        <Table name="dim_consesionario" alias="">
+        </Table>
+        <Level name="restricciones" visible="true" column="nombre" uniqueMembers="true"></Level>
+        <Level name="ciudad" visible="true" column="ciudad" uniqueMembers="false">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="cliente_key" name="clientes">
+      <Hierarchy name="todos_los_tipos" visible="true" hasAll="true" allMemberName="todos_los_clientes" primaryKey="cliente_key">
+        <Table name="dim_cliente" alias="">
+        </Table>
+        <Level name="nombre" visible="true" column="nombre" uniqueMembers="true">
+        </Level>
+        <Level name="datos" visible="true" column="apellido" uniqueMembers="false">
+          <NameExpression>
+            <SQL dialect="mysql">
+            CONCAT(`nombre`,' -> ',`apellido`,', ',`sexo`,' -> ',`edad`,' - ',`dni`)
+            </SQL>
+           </NameExpression>
+        </Level>
+      </Hierarchy>
+    </Dimension> 
+    <Dimension type="StandardDimension" visible="true" foreignKey="vendedor_key" name="vendedores">
+      <Hierarchy name="todos_los_tipos" visible="true" hasAll="true" allMemberName="todos_los_vendedores" primaryKey="vendedor_key">
+        <Table name="dim_vendedor" alias="">
+        </Table>
+        <Level name="nombre" visible="true" column="nombre" uniqueMembers="true">
+        </Level>
+        <Level name="datos" visible="true" column="apellido" uniqueMembers="false">
+          <NameExpression>
+            <SQL dialect="mysql">
+            CONCAT(`nombre`,' -> ',`apellido`,', ',`sexo`,' -> ',`edad`,' - ',`dni`)
+            </SQL>
+           </NameExpression>
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Measure name="cant_ventas" column="cantida_ventais" aggregator="sum" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
